@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-public class HomeController {
+public class HealthController {
 
-    @GetMapping(value = "/dummy")
-    public ResponseEntity<?> dummy(){
-        return ResponseEntity.ok("Welcome to chat-bot service!!");
+    @GetMapping(value = "/health")
+    public ResponseEntity<?> health(){
+        return ResponseEntity.ok().build();
     }
 
 }
