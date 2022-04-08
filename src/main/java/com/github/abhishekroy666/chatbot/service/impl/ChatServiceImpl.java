@@ -4,7 +4,6 @@ import com.github.abhishekroy666.chatbot.enums.GenericResponse;
 import com.github.abhishekroy666.chatbot.service.ChatService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +16,7 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public String getGenericResponse(String text) {
-        if(StringUtils.isEmpty(text)) {
+        if(null == text || 0 == text.length()) {
             return "WHAT DO YOU HAVE IN MIND?";
         }
         GenericResponse response = null;
