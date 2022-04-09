@@ -1,6 +1,6 @@
 package com.github.abhishekroy666.chatbot.enums;
 
-public enum GenericResponse {
+public enum ResponseType {
     RESPONSE_1("I HEARD YOU!"),
     RESPONSE_2("SO, YOU ARE TALKING TO ME."),
     RESPONSE_3("CONTINUE, I’M LISTENING."),
@@ -9,13 +9,13 @@ public enum GenericResponse {
     RESPONSE_7("ALRIGHT!"),
     RESPONSE_9("OKAY.");
 
-    private String response;
+    private final String text;
 
-    GenericResponse(String response) {
-        this.response = response;
+    ResponseType(String text) {
+        this.text = text;
     }
 
-    public String getResponse() {
-        return this.response;
+    public final String getText() {
+        return this.text;
     }
 }
