@@ -14,11 +14,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
 
     @Bean
-    public Docket docket(){
+    public Docket docket() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(this.apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.github.abhishekroy666.chatbot"))
+                .apis(RequestHandlerSelectors.basePackage("com.github.abhishekroy666.chatbot.resource.api"))
                 .build();
     }
 

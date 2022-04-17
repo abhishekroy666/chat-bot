@@ -1,9 +1,8 @@
 package com.github.abhishekroy666.chatbot.service;
 
-import com.github.abhishekroy666.chatbot.model.ChatRequest;
-import com.github.abhishekroy666.chatbot.model.ChatResponse;
+import com.github.abhishekroy666.chatbot.model.Message;
 
 public interface ChatService {
 
-    ChatResponse getGenericResponse(ChatRequest chatRequest);
+    Message chat(Message message);
 }

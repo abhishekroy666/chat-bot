@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript">
+        function proceed() {
+            document.getElementById("chat-loader").submit();
+        }
+    </script>
+</head>
+<body onload="proceed()">
+<form id="chat-loader" action="/chat/web" method="post"></form>
+</body>
+</html>
