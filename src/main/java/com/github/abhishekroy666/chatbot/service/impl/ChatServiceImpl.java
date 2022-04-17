@@ -17,7 +17,9 @@ public class ChatServiceImpl implements ChatService {
     public Message chat(Message message) {
         String text = message.getText();
         String response;
-        if (text == null || text.length() == 0 || text.equalsIgnoreCase("?")) {
+        if (message.getName() == null || message.getName().isEmpty()) {
+            response = "Please say your name";
+        } else if (text == null || text.length() == 0 || text.equalsIgnoreCase("?")) {
             response = DEFAULT_RESPONSE_TEXT;
         } else {
             ChatType chatType = null;

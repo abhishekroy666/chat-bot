@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <script type="text/javascript">
-        function proceed() {
-            document.getElementById("chat-loader").submit();
+        function redirect() {
+            document.getElementById('chat-web').submit();
         }
     </script>
 </head>
-<body onload="proceed()">
-<form id="chat-loader" action="/chat/web" method="post"></form>
+<body onload="redirect()">
+<form id="chat-web" action="/chat/web" method="post"></form>
 </body>
 </html>

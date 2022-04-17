@@ -23,6 +23,6 @@ public class ChatWebController {
 
     @PostMapping("/chat/web")
     public ModelAndView chat(@ModelAttribute("message") Message message) {
-        return new ModelAndView("chat-ui.html", Collections.singletonMap("message", this.chatService.chat(message)));
+        return new ModelAndView("chat-web.html", Collections.singletonMap("message", this.chatService.chat(message)));
     }
 }
