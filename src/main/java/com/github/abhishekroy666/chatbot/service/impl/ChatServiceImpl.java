@@ -1,44 +1,55 @@
 package com.github.abhishekroy666.chatbot.service.impl;
 
-import com.github.abhishekroy666.chatbot.enums.ChatType;
+import com.github.abhishekroy666.chatbot.entity.Response;
+import com.github.abhishekroy666.chatbot.enums.MessageType;
 import com.github.abhishekroy666.chatbot.model.Message;
 import com.github.abhishekroy666.chatbot.service.ChatService;
+import com.github.abhishekroy666.chatbot.service.ResponseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
-import java.util.Random;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class ChatServiceImpl implements ChatService {
 
-    private static final String DEFAULT_RESPONSE_TEXT = "WHAT DO YOU HAVE IN MIND?";
+    @Autowired
+    private ResponseService responseService;
+
+    private static final Map<MessageType, Integer> lastUsedIdxMap = new HashMap<>();
 
     @Override
-    public Message chat(Message message) {
-        String text = message.getText();
-        String response;
-        if (message.getName() == null || message.getName().isEmpty()) {
-            response = "Please say your name";
-        } else if (text == null || text.length() == 0 || text.equalsIgnoreCase("?")) {
-            response = DEFAULT_RESPONSE_TEXT;
-        } else {
-            ChatType chatType = null;
-            final Random random = new Random();
-            while (chatType == null || message.getChatType() == null || chatType.equals(message.getChatType())) {
-                chatType = ChatType.values()[random.nextInt(ChatType.values().length)];
-                if (ObjectUtils.isEmpty(message.getChatType())) {
-                    message.setChatType(chatType);
+    public final Message chat(Message message) {
+        final MessageType messageType = MessageType.of(message);
+        final StringBuilder stringBuilder = new StringBuilder();
+        if (messageType != null) {
+            final List<Response> responses = this.responseService.getResponses(messageType);
+            Optional<Response> response = Optional.empty();
+            if (!responses.isEmpty()) {
+                Collections.shuffle(responses);
+                response = responses.stream().findAny();
+                if (lastUsedIdxMap.containsKey(messageType)) {
+                    final int lastIdx = lastUsedIdxMap.get(messageType);
+                    while (response.isPresent() && response.get().getId() == lastIdx) {
+                        Collections.shuffle(responses);
+                        response = responses.stream().findAny();
+                    }
                 }
             }
-            message.setChatType(chatType);
-            response = chatType.getText();
+            response.ifPresent(r -> {
+                stringBuilder.append(r.getText());
+                lastUsedIdxMap.put(messageType, r.getId());
+            });
         }
         return Message
                 .builder()
                 .name(message.getName())
-                .chatType(message.getChatType())
-                .text(text)
-                .response(response)
+                .text(message.getText())
+                .response(stringBuilder.toString())
                 .build();
     }
 }
