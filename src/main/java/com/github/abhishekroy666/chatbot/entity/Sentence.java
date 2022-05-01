@@ -21,7 +21,7 @@ import javax.persistence.UniqueConstraint;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"messageType", "text"}))
-public class Response extends BaseEntity {
+public class Sentence extends BaseEntity {
 
     @Id
     @Column(nullable = false)

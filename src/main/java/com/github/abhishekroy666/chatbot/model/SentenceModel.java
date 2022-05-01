@@ -10,13 +10,13 @@ import javax.validation.constraints.NotNull;
  * @author Abhishek Roy
  */
 @Data
-public class ResponseModel {
+public class SentenceModel {
 
     private Integer id;
 
-    @NotNull(message = "messageType is mandatory")
+    @NotNull
     private MessageType messageType;
 
-    @NotBlank(message = "text is mandatory")
+    @NotBlank
     private String text;
 }

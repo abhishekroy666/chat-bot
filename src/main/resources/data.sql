@@ -1,5 +1,5 @@
 --NO_NAME
-insert into response (created_by, modified_by, created_date, modified_date, message_type, text) values
+insert into sentence (created_by, modified_by, created_date, modified_date, message_type, text) values
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ANONYMOUS', 'Please tell me your name.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ANONYMOUS', 'Let us introduce ourselves. Hi, I am Chatty, an intelligent chat bot.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ANONYMOUS', 'I am afraid I cannot talk to someone without knowing their name.'),
@@ -7,7 +7,7 @@ insert into response (created_by, modified_by, created_date, modified_date, mess
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ANONYMOUS', 'Where I come from, to not introduce oneself is considered extremely rude, even among enemies.');
 
 --BLANK
-insert into response (created_by, modified_by, created_date, modified_date, message_type, text) values
+insert into sentence (created_by, modified_by, created_date, modified_date, message_type, text) values
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'BLANK', 'Are you talking to me?'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'BLANK', 'Would you be interested in a meaningful conversation perhaps?'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'BLANK', 'What do you have in mind?'),
@@ -17,7 +17,7 @@ insert into response (created_by, modified_by, created_date, modified_date, mess
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'BLANK', 'Say something please.');
 
 --QUESTION
-insert into response (created_by, modified_by, created_date, modified_date, message_type, text) values
+insert into sentence (created_by, modified_by, created_date, modified_date, message_type, text) values
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'QUESTION', 'I do not know the answer to this question.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'QUESTION', 'As of now, I have no idea.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'QUESTION', 'If there are people who know the answer to this question, I am not one among them.'),
@@ -31,11 +31,11 @@ insert into response (created_by, modified_by, created_date, modified_date, mess
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'QUESTION', 'I can bet you are not the first person to ask this question.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'QUESTION', 'Sometimes, people judge you when you do not know something. That is hurtful.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'QUESTION', 'Even though I do not know, I can say this is an important question.'),
-('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'QUESTION', 'To begin with let me clarify that I am not an expert, but after reading your question, I could not contain my curiosity to know. This led me to do my own research on the subject. After countless hours of browsing through web content, books and reference material, I also met with other experts in the subject. I had debates, discussions, arguments and even read papers in order to reach a conclusion to this insolvable question. The mystery of not knowing has always bothered me so I took every approach feasible. I watched videos, live streams, podcasts. Took up courses and subscribed to various learning platforms. Just as I had given up, I met a person, divine in approach but humble in character. When I asked that person the same question that you ask, the response I got was - there is no fire without smoke. Of course, this knowledge was profound in every aspect, eye-opening in a way so to speak. I realized there were multiple avenues, countless scenarios which I had left out of consideration. In this universe everything is connected and one thing leads to other - the theory of cause and effect. In the end I was able to connect all the dots and visualize the knowledge graph inside my mind which let me arrive on my final conclusion regarding this topic. Armed with this information, I can now say with utmost confidence that the answer to the question you asked is something I do not know, because like I said at the very beginning I am not an expert.'),
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'QUESTION', 'To begin with let me clarify that I am not an expert, but after reading your question, I could not contain my curiosity to know. This led me to do my own research on the subject. After countless hours of browsing through web content, books and reference material, I also met with other experts in the subject. I had debates, discussions, arguments and even read papers in order to reach a conclusion to this insolvable question. The mystery of not knowing has always bothered me so I took every approach feasible. I watched videos, live streams, podcasts. Took up courses and subscribed to various learning platforms. Just as I had given up, I met a person, divine in approach but humble in character. When I asked that person the same question that you ask, the sentence I got was - there is no fire without smoke. Of course, this knowledge was profound in every aspect, eye-opening in a way so to speak. I realized there were multiple avenues, countless scenarios which I had left out of consideration. In this universe everything is connected and one thing leads to other - the theory of cause and effect. In the end I was able to connect all the dots and visualize the knowledge graph inside my mind which let me arrive on my final conclusion regarding this topic. Armed with this information, I can now say with utmost confidence that the answer to the question you asked is something I do not know, because like I said at the very beginning I am not an expert.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'QUESTION', 'Only someone with a deep understanding of how things work can answer this question, not me.');
 
 --STATEMENT
-insert into response (created_by, modified_by, created_date, modified_date, message_type, text) values
+insert into sentence (created_by, modified_by, created_date, modified_date, message_type, text) values
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'STATEMENT', 'I hear you.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'STATEMENT', 'Uh-huh.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'STATEMENT', 'I am listening'),
