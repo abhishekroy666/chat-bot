@@ -9,9 +9,21 @@
         function clearResponse() {
             document.getElementById('response').value = '';
         }
+        function checkName() {
+            var name = document.getElementById('name').value;
+            var textLabel = document.getElementById('textLabel');
+            var textMessage = document.getElementById('textMessage');
+            if (name == '') {
+                textLabel.style.display = 'none';
+                textMessage.style.display = 'none';
+            } else {
+                textLabel.style.display = 'block';
+                textMessage.style.display = 'block';
+            }
+        }
     </script>
 </head>
-<body>
+<body onload="checkName()">
 <div class="container">
     <div class="jumbotron text-center bg-success text-white">
         <h3>Welcome to the Stupid Chat-Bot</h3>
@@ -24,8 +36,8 @@
                 <div class="col-9"><input id="name" oninput="clearResponse()" type="text" class="form-control" th:field="*{name}"/></div>
             </div>
             <div class="row form-group">
-                <div class="col-3 text-wrap font-weight-bold">Enter your message</div>
-                <div class="col-9"><textarea id="text" oninput="clearResponse()" class="form-control" th:field="*{text}"></textarea></div>
+                <div id="textLabel" class="col-3 text-wrap font-weight-bold">Enter your message</div>
+                <div id="textMessage" class="col-9"><textarea id="text" oninput="clearResponse()" class="form-control" th:field="*{text}"></textarea></div>
             </div>
             <div class="row form-group">
                 <div class="col-3 font-weight-bold">Bot Says</div>
