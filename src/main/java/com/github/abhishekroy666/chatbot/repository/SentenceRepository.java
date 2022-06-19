@@ -1,7 +1,7 @@
 package com.github.abhishekroy666.chatbot.repository;
 
 import com.github.abhishekroy666.chatbot.entity.Sentence;
-import com.github.abhishekroy666.chatbot.enums.MessageType;
+import com.github.abhishekroy666.chatbot.enums.SentenceType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.Optional;
  */
 public interface SentenceRepository extends JpaRepository<Sentence, Integer> {
 
-    List<Sentence> findByMessageType(MessageType messageType);
+    List<Sentence> findBySentenceType(SentenceType sentenceType);
 
-    Optional<Sentence> findByMessageTypeAndTextIgnoreCase(MessageType messageType, String text);
+    Optional<Sentence> findBySentenceTypeAndTextIgnoreCase(SentenceType sentenceType, String text);
 }

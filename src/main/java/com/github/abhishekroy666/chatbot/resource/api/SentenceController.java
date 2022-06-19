@@ -1,6 +1,6 @@
 package com.github.abhishekroy666.chatbot.resource.api;
 
-import com.github.abhishekroy666.chatbot.enums.MessageType;
+import com.github.abhishekroy666.chatbot.enums.SentenceType;
 import com.github.abhishekroy666.chatbot.model.SentenceModel;
 import com.github.abhishekroy666.chatbot.service.SentenceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +37,8 @@ public class SentenceController {
     }
 
     @GetMapping
-    public ResponseEntity<?> retrieve(@RequestParam(required = false) MessageType messageType) {
-        return ResponseEntity.ok(this.sentenceService.retrieve(messageType));
+    public ResponseEntity<?> retrieve(@RequestParam(required = false) SentenceType sentenceType) {
+        return ResponseEntity.ok(this.sentenceService.retrieve(sentenceType));
     }
 
     @PutMapping

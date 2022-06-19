@@ -1,7 +1,7 @@
 package com.github.abhishekroy666.chatbot.service.impl;
 
 import com.github.abhishekroy666.chatbot.entity.Sentence;
-import com.github.abhishekroy666.chatbot.enums.MessageType;
+import com.github.abhishekroy666.chatbot.enums.SentenceType;
 import com.github.abhishekroy666.chatbot.exception.ConflictException;
 import com.github.abhishekroy666.chatbot.exception.NotFoundException;
 import com.github.abhishekroy666.chatbot.mapper.SentenceMapper;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,7 +30,7 @@ public class SentenceServiceImpl implements SentenceService {
 
     @Override
     public final void create(SentenceModel sentenceModel) {
-        Optional<Sentence> sentence = this.sentenceRepository.findByMessageTypeAndTextIgnoreCase(sentenceModel.getMessageType(), sentenceModel.getText());
+        Optional<Sentence> sentence = this.sentenceRepository.findBySentenceTypeAndTextIgnoreCase(sentenceModel.getSentenceType(), sentenceModel.getText());
         if (sentence.isPresent()) {
             throw new ConflictException("Sentence already exists.");
         }
@@ -40,16 +39,15 @@ public class SentenceServiceImpl implements SentenceService {
     }
 
     @Override
-    public List<SentenceModel> retrieve(MessageType messageType) {
+    public List<SentenceModel> retrieve(SentenceType sentenceType) {
         final List<Sentence> sentences = new ArrayList<>();
-        if (messageType != null) {
-            sentences.addAll(this.sentenceRepository.findByMessageType(messageType));
+        if (sentenceType != null) {
+            sentences.addAll(this.sentenceRepository.findBySentenceType(sentenceType));
         } else {
             sentences.addAll(this.sentenceRepository.findAll());
         }
         return sentences
                 .stream()
-                .sorted(Comparator.comparing(Sentence::getId))
                 .map(this.sentenceMapper::mapEntityToModel)
                 .collect(Collectors.toList());
     }

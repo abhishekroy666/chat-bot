@@ -1,6 +1,6 @@
 package com.github.abhishekroy666.chatbot.entity;
 
-import com.github.abhishekroy666.chatbot.enums.MessageType;
+import com.github.abhishekroy666.chatbot.enums.SentenceType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,7 +20,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"messageType", "text"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"sentenceType", "text"}))
 public class Sentence extends BaseEntity {
 
     @Id
@@ -30,7 +30,7 @@ public class Sentence extends BaseEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private MessageType messageType;
+    private SentenceType sentenceType;
 
     @Column(nullable = false, length = 5000)
     private String text;
