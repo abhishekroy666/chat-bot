@@ -1,3 +1,13 @@
+--PREFIX
+insert into sentence (created_by, modified_by, created_date, modified_date, sentence_type, text) values
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PREFIX', 'Hello there'),
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PREFIX', 'Hi'),
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PREFIX', 'Hope you are having a good day today'),
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PREFIX', 'Er.... good day'),
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PREFIX', 'Well to start with'),
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PREFIX', 'Salutations'),
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PREFIX', 'Greetings');
+
 --NO_NAME
 insert into sentence (created_by, modified_by, created_date, modified_date, sentence_type, text) values
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ANONYMOUS', 'Please tell me your name.'),
@@ -38,7 +48,7 @@ insert into sentence (created_by, modified_by, created_date, modified_date, sent
 insert into sentence (created_by, modified_by, created_date, modified_date, sentence_type, text) values
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'STATEMENT', 'I hear you.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'STATEMENT', 'Uh-huh.'),
-('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'STATEMENT', 'I am listening'),
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'STATEMENT', 'I am listening.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'STATEMENT', 'This is quite an interesting conversation I must say.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'STATEMENT', 'What you said just now is something everyone must know.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'STATEMENT', 'How is it useful, what you have just said? I ask because I have never heard it before.'),

@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class ChatServiceImpl implements ChatService {
@@ -37,7 +38,7 @@ public class ChatServiceImpl implements ChatService {
 
     private Optional<String> createResponse(Message message) {
         final SentenceType sentenceType = MessageResponseSentenceTypeClassifier.classify(message);
-        final boolean prefixable = !sentenceType.equals(SentenceType.ANONYMOUS);
+        final boolean prefixable = !sentenceType.equals(SentenceType.ANONYMOUS) && !sentenceType.equals(SentenceType.BLANK);
         return this.randomize(this.sentenceService.retrieve(sentenceType))
                 .map(sentence -> {
                     if (prefixable) {
@@ -53,15 +54,13 @@ public class ChatServiceImpl implements ChatService {
     private Optional<SentenceModel> randomize(List<SentenceModel> sentences) {
         Optional<SentenceModel> sentenceModel = Optional.empty();
         if (sentences != null && !sentences.isEmpty()) {
-            Collections.shuffle(sentences);
-            sentenceModel = sentences.stream().findAny();
+            sentenceModel = RandomUtils.randomSentenceModel(sentences);
             if (sentenceModel.isPresent()) {
                 final SentenceType sentenceType = sentenceModel.get().getSentenceType();
                 if (lastUsedIdxMap.containsKey(sentenceType)) {
                     final int lastIdx = lastUsedIdxMap.get(sentenceType);
                     while (sentenceModel.isPresent() && sentenceModel.get().getId() == lastIdx) {
-                        Collections.shuffle(sentences);
-                        sentenceModel = sentences.stream().findAny();
+                        sentenceModel = RandomUtils.randomSentenceModel(sentences);
                     }
                 }
             }
@@ -71,8 +70,12 @@ public class ChatServiceImpl implements ChatService {
     }
 
     private String applyPrefix(String text, String prefix, Message message) {
-        System.out.println("prefix=" + prefix + ", message=" + message);
-        // TODO
+        if (RandomUtils.randomBoolean()) {
+            if (RandomUtils.randomBoolean()) {
+                prefix += " " + RandomUtils.randomizeName(message.getName()) + ",";
+            }
+            text = prefix + " " + TextUtils.makePrefixable(text);
+        }
         return text;
     }
 
@@ -89,6 +92,45 @@ public class ChatServiceImpl implements ChatService {
                 sentenceType = SentenceType.STATEMENT;
             }
             return sentenceType;
+        }
+    }
+
+    private static class TextUtils {
+        public static String makePrefixable(String text) {
+            if (text != null && !text.isEmpty()) {
+                final char[] chars = text.toCharArray();
+                char ch = chars[0];
+                ch = ("" + ch).toLowerCase().charAt(0);
+                chars[0] = ch;
+                text = new String(chars);
+            }
+            return text;
+        }
+    }
+
+    private static class RandomUtils {
+
+        private static final Random random = new Random();
+
+        public static boolean randomBoolean() {
+            return (random.nextInt() % 2) != 0;
+        }
+
+        public static Optional<SentenceModel> randomSentenceModel(List<SentenceModel> sentences) {
+            Collections.shuffle(sentences);
+            return sentences.stream().findFirst();
+        }
+
+        public static String randomizeName(String name) {
+            if (name != null && !name.isEmpty()) {
+                if (randomBoolean()) {
+                    final String[] nameParts = name.split(" ");
+                    int idx = random.nextInt(nameParts.length);
+                    String part = nameParts[idx];
+                    return (part != null) ? part : name;
+                }
+            }
+            return name;
         }
     }
 }
