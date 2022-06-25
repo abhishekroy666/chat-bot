@@ -74,7 +74,9 @@ public class ChatServiceImpl implements ChatService {
             if (RandomUtils.randomBoolean()) {
                 prefix += " " + RandomUtils.randomizeName(message.getName()) + ",";
             }
-            text = prefix + " " + TextUtils.makePrefixable(text);
+            if (prefix.length() < text.length()) {
+                text = prefix + " " + TextUtils.makePrefixable(text);
+            }
         }
         return text;
     }
