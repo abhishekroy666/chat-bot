@@ -7,18 +7,20 @@
     <link rel="icon" href="https://img.icons8.com/fluency/96/000000/chatbot.png">
     <script type="text/javascript">
         function clearResponse() {
-            document.getElementById('response').value = '';
+            var response = document.getElementById('response');
+            response.value = '';
         }
         function checkName() {
-            var name = document.getElementById('name').value;
+            var name = document.getElementById('name');
             var textLabel = document.getElementById('textLabel');
             var textMessage = document.getElementById('textMessage');
-            if (name == '') {
+            if (name.value == '') {
                 textLabel.style.display = 'none';
                 textMessage.style.display = 'none';
             } else {
                 textLabel.style.display = 'block';
                 textMessage.style.display = 'block';
+                name.readOnly = true;
             }
         }
     </script>
