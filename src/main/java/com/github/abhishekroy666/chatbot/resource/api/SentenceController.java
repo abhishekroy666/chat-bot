@@ -4,6 +4,8 @@ import com.github.abhishekroy666.chatbot.enums.SentenceType;
 import com.github.abhishekroy666.chatbot.model.SentenceModel;
 import com.github.abhishekroy666.chatbot.service.SentenceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,8 +39,13 @@ public class SentenceController {
     }
 
     @GetMapping
-    public ResponseEntity<?> retrieve(@RequestParam(required = false) SentenceType sentenceType) {
-        return ResponseEntity.ok(this.sentenceService.retrieve(sentenceType));
+    public ResponseEntity<?> retrieve(@RequestParam(required = false) SentenceType sentenceType,
+                                      @RequestParam(required = false) Integer page,
+                                      @RequestParam(required = false) Integer size) {
+        final Pageable pageable = (page != null && size != null)
+                ? PageRequest.of(page, size)
+                : Pageable.unpaged();
+        return ResponseEntity.ok(this.sentenceService.retrieve(sentenceType, pageable));
     }
 
     @PutMapping

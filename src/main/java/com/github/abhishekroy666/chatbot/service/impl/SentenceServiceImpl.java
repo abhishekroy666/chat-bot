@@ -9,12 +9,13 @@ import com.github.abhishekroy666.chatbot.model.SentenceModel;
 import com.github.abhishekroy666.chatbot.repository.SentenceRepository;
 import com.github.abhishekroy666.chatbot.service.SentenceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @author Abhishek Roy
@@ -30,7 +31,9 @@ public class SentenceServiceImpl implements SentenceService {
 
     @Override
     public final void create(SentenceModel sentenceModel) {
-        Optional<Sentence> sentence = this.sentenceRepository.findBySentenceTypeAndTextIgnoreCase(sentenceModel.getSentenceType(), sentenceModel.getText());
+        ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIgnoreCase(true);
+        Example<Sentence> example = Example.of(this.sentenceMapper.mapModelToEntity(sentenceModel), exampleMatcher);
+        Optional<Sentence> sentence = this.sentenceRepository.findOne(example);
         if (sentence.isPresent()) {
             throw new ConflictException("Sentence already exists.");
         }
@@ -39,17 +42,14 @@ public class SentenceServiceImpl implements SentenceService {
     }
 
     @Override
-    public List<SentenceModel> retrieve(SentenceType sentenceType) {
-        final List<Sentence> sentences = new ArrayList<>();
+    public Page<SentenceModel> retrieve(SentenceType sentenceType, Pageable pageable) {
+        final Sentence sentence = new Sentence();
         if (sentenceType != null) {
-            sentences.addAll(this.sentenceRepository.findBySentenceType(sentenceType));
-        } else {
-            sentences.addAll(this.sentenceRepository.findAll());
+            sentence.setSentenceType(sentenceType);
         }
-        return sentences
-                .stream()
-                .map(this.sentenceMapper::mapEntityToModel)
-                .collect(Collectors.toList());
+        return this.sentenceRepository
+                .findAll(Example.of(sentence), pageable)
+                .map(this.sentenceMapper::mapEntityToModel);
     }
 
     @Override

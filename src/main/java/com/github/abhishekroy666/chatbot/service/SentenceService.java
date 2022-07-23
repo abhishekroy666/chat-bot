@@ -3,8 +3,8 @@ package com.github.abhishekroy666.chatbot.service;
 import com.github.abhishekroy666.chatbot.enums.SentenceType;
 import com.github.abhishekroy666.chatbot.exception.NotFoundException;
 import com.github.abhishekroy666.chatbot.model.SentenceModel;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * @author Abhishek Roy
@@ -13,7 +13,7 @@ public interface SentenceService {
 
     void create(SentenceModel response);
 
-    List<SentenceModel> retrieve(SentenceType sentenceType);
+    Page<SentenceModel> retrieve(SentenceType sentenceType, Pageable pageable);
 
     void update(SentenceModel sentenceModel) throws NotFoundException;
 
