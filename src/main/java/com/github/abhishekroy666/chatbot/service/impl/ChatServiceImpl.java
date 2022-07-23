@@ -6,6 +6,7 @@ import com.github.abhishekroy666.chatbot.model.SentenceModel;
 import com.github.abhishekroy666.chatbot.service.ChatService;
 import com.github.abhishekroy666.chatbot.service.SentenceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -40,10 +41,10 @@ public class ChatServiceImpl implements ChatService {
     private Optional<String> createResponse(Message message) {
         final SentenceType sentenceType = MessageResponseSentenceTypeClassifier.classify(message);
         final boolean prefixable = !sentenceType.equals(SentenceType.ANONYMOUS);
-        return this.randomize(this.sentenceService.retrieve(sentenceType))
+        return this.randomize(this.sentenceService.retrieve(sentenceType, Pageable.unpaged()).toList())
                 .map(sentence -> {
                     if (prefixable) {
-                        Optional<SentenceModel> prefix = this.randomize(this.sentenceService.retrieve(SentenceType.PREFIX));
+                        Optional<SentenceModel> prefix = this.randomize(this.sentenceService.retrieve(SentenceType.PREFIX, Pageable.unpaged()).toList());
                         if (prefix.isPresent()) {
                             return applyPrefix(sentence.getText(), prefix.get().getText(), message);
                         }
