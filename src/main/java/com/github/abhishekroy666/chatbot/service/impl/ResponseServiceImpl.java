@@ -48,10 +48,8 @@ public class ResponseServiceImpl implements ResponseService {
     public Page<ResponseModel> retrieve(SentenceType sentenceType, String text, Pageable pageable) {
         final ResponseModel responseModel = new ResponseModel();
         responseModel.setText(text);
-        if (sentenceType != null) {
-            this.responseTypeService.retrieveOne(sentenceType)
-                    .ifPresent(responseModel::setResponseType);
-        }
+        this.responseTypeService.retrieveOne(sentenceType)
+                .ifPresent(responseModel::setResponseType);
         return this.responseRepository
                 .findAll(this.exampleOf(responseModel), pageable)
                 .map(this.responseMapper::mapEntityToModel);

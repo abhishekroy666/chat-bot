@@ -55,11 +55,14 @@ public class ResponseTypeServiceImpl implements ResponseTypeService<Message> {
 
     @Override
     public Optional<ResponseTypeModel> retrieveOne(SentenceType type) {
-        final ResponseTypeModel responseTypeModel = new ResponseTypeModel();
-        responseTypeModel.setType(type);
-        return this.responseTypeRepository
-                .findOne(this.exampleOf(responseTypeModel))
-                .map(this.responseTypeMapper::mapEntityToModel);
+        if (type != null) {
+            final ResponseTypeModel responseTypeModel = new ResponseTypeModel();
+            responseTypeModel.setType(type);
+            return this.responseTypeRepository
+                    .findOne(this.exampleOf(responseTypeModel))
+                    .map(this.responseTypeMapper::mapEntityToModel);
+        }
+        return Optional.empty();
     }
 
     @Override
