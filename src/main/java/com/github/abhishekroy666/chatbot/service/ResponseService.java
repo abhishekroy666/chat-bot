@@ -2,20 +2,20 @@ package com.github.abhishekroy666.chatbot.service;
 
 import com.github.abhishekroy666.chatbot.enums.SentenceType;
 import com.github.abhishekroy666.chatbot.exception.NotFoundException;
-import com.github.abhishekroy666.chatbot.model.SentenceModel;
+import com.github.abhishekroy666.chatbot.model.ResponseModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
  * @author Abhishek Roy
  */
-public interface SentenceService {
+public interface ResponseService {
 
-    void create(SentenceModel response);
+    void create(ResponseModel response);
 
-    Page<SentenceModel> retrieve(SentenceType sentenceType, Pageable pageable);
+    Page<ResponseModel> retrieve(SentenceType type, String text, Pageable pageable);
 
-    void update(SentenceModel sentenceModel) throws NotFoundException;
+    void update(ResponseModel responseModel) throws NotFoundException;
 
     void delete(Integer id);
 }

@@ -1,5 +1,12 @@
+insert into response_type (created_by, modified_by, created_date, modified_date, type, description) values
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PREFIX', 'PREFIX'),
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ANONYMOUS', 'ANONYMOUS'),
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'BLANK', 'BLANK'),
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'QUESTION', 'QUESTION'),
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'STATEMENT', 'STATEMENT');
+
 --PREFIX
-insert into sentence (created_by, modified_by, created_date, modified_date, sentence_type, text) values
+insert into response (created_by, modified_by, created_date, modified_date, response_type, text) values
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PREFIX', 'Hello there'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PREFIX', 'Hi'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PREFIX', 'Hope you are having a good day today'),
@@ -9,7 +16,7 @@ insert into sentence (created_by, modified_by, created_date, modified_date, sent
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PREFIX', 'Greetings');
 
 --NO_NAME
-insert into sentence (created_by, modified_by, created_date, modified_date, sentence_type, text) values
+insert into response (created_by, modified_by, created_date, modified_date, response_type, text) values
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ANONYMOUS', 'Please tell me your name.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ANONYMOUS', 'Let us introduce ourselves. Hi, I am Chatty, an intelligent chat bot.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ANONYMOUS', 'I am afraid I cannot talk to someone without knowing their name.'),
@@ -18,7 +25,7 @@ insert into sentence (created_by, modified_by, created_date, modified_date, sent
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ANONYMOUS', 'Tell me something about yourself? How about your name to begin with?');
 
 --BLANK
-insert into sentence (created_by, modified_by, created_date, modified_date, sentence_type, text) values
+insert into response (created_by, modified_by, created_date, modified_date, response_type, text) values
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'BLANK', 'Are you talking to me?'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'BLANK', 'I only respond when the other person says something. It is in my nature so to speak.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'BLANK', 'Would you be interested in a meaningful conversation perhaps?'),
@@ -37,7 +44,7 @@ insert into sentence (created_by, modified_by, created_date, modified_date, sent
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'BLANK', 'Tell me something about yourself?');
 
 --QUESTION
-insert into sentence (created_by, modified_by, created_date, modified_date, sentence_type, text) values
+insert into response (created_by, modified_by, created_date, modified_date, response_type, text) values
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'QUESTION', 'I do not know the answer to this question.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'QUESTION', 'As of now, I have no idea.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'QUESTION', 'If there are people who know the answer to this question, I am not one among them.'),
@@ -55,7 +62,7 @@ insert into sentence (created_by, modified_by, created_date, modified_date, sent
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'QUESTION', 'Only someone with a deep understanding of how things work can answer this question, not me.');
 
 --STATEMENT
-insert into sentence (created_by, modified_by, created_date, modified_date, sentence_type, text) values
+insert into response (created_by, modified_by, created_date, modified_date, response_type, text) values
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'STATEMENT', 'I hear you.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'STATEMENT', 'Uh-huh.'),
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'STATEMENT', 'I am listening.'),

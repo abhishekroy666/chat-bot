@@ -2,9 +2,11 @@ package com.github.abhishekroy666.chatbot.service.impl;
 
 import com.github.abhishekroy666.chatbot.enums.SentenceType;
 import com.github.abhishekroy666.chatbot.model.Message;
-import com.github.abhishekroy666.chatbot.model.SentenceModel;
+import com.github.abhishekroy666.chatbot.model.ResponseModel;
+import com.github.abhishekroy666.chatbot.model.ResponseTypeModel;
 import com.github.abhishekroy666.chatbot.service.ChatService;
-import com.github.abhishekroy666.chatbot.service.SentenceService;
+import com.github.abhishekroy666.chatbot.service.ResponseService;
+import com.github.abhishekroy666.chatbot.service.ResponseTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,15 @@ import java.util.Random;
 @Service
 public class ChatServiceImpl implements ChatService {
 
-    private static final Map<SentenceType, Integer> LAST_USED_RESPONSE_MAP = new HashMap<>();
+    private static final Map<ResponseTypeModel, Integer> LAST_USED_RESPONSE_MAP = new HashMap<>();
 
     private final Random random = new Random();
 
     @Autowired
-    private SentenceService sentenceService;
+    private ResponseService responseService;
+
+    @Autowired
+    private ResponseTypeService<Message> responseTypeService;
 
     @Override
     public final Message chat(Message message) {
@@ -39,12 +44,12 @@ public class ChatServiceImpl implements ChatService {
     }
 
     private Optional<String> createResponse(Message message) {
-        final SentenceType sentenceType = MessageResponseSentenceTypeClassifier.classify(message);
+        final SentenceType sentenceType = SentenceType.classify(message);
         final boolean prefixable = !sentenceType.equals(SentenceType.ANONYMOUS);
-        return this.randomize(this.sentenceService.retrieve(sentenceType, Pageable.unpaged()).toList())
+        return this.randomize(this.responseService.retrieve(sentenceType, null, Pageable.unpaged()).toList())
                 .map(sentence -> {
                     if (prefixable) {
-                        Optional<SentenceModel> prefix = this.randomize(this.sentenceService.retrieve(SentenceType.PREFIX, Pageable.unpaged()).toList());
+                        Optional<ResponseModel> prefix = this.randomize(this.responseService.retrieve(SentenceType.PREFIX, null, Pageable.unpaged()).toList());
                         if (prefix.isPresent()) {
                             return applyPrefix(sentence.getText(), prefix.get().getText(), message);
                         }
@@ -53,25 +58,25 @@ public class ChatServiceImpl implements ChatService {
                 });
     }
 
-    private Optional<SentenceModel> randomize(List<SentenceModel> sentences) {
-        Optional<SentenceModel> sentenceModel = Optional.empty();
+    private Optional<ResponseModel> randomize(List<ResponseModel> sentences) {
+        Optional<ResponseModel> sentenceModel = Optional.empty();
         if (sentences != null && !sentences.isEmpty()) {
             sentenceModel = this.fetchRandomSentenceModel(sentences);
             if (sentenceModel.isPresent()) {
-                final SentenceType sentenceType = sentenceModel.get().getSentenceType();
-                if (LAST_USED_RESPONSE_MAP.containsKey(sentenceType)) {
-                    final int prevRespId = LAST_USED_RESPONSE_MAP.get(sentenceType);
+                final ResponseTypeModel responseTypeModel = sentenceModel.get().getResponseType();
+                if (LAST_USED_RESPONSE_MAP.containsKey(responseTypeModel)) {
+                    final int prevRespId = LAST_USED_RESPONSE_MAP.get(responseTypeModel);
                     while (sentenceModel.isPresent() && sentenceModel.get().getId() == prevRespId) {
                         sentenceModel = this.fetchRandomSentenceModel(sentences);
                     }
                 }
             }
         }
-        sentenceModel.ifPresent(sentence -> LAST_USED_RESPONSE_MAP.put(sentence.getSentenceType(), sentence.getId()));
+        sentenceModel.ifPresent(sentence -> LAST_USED_RESPONSE_MAP.put(sentence.getResponseType(), sentence.getId()));
         return sentenceModel;
     }
 
-    private Optional<SentenceModel> fetchRandomSentenceModel(List<SentenceModel> sentences) {
+    private Optional<ResponseModel> fetchRandomSentenceModel(List<ResponseModel> sentences) {
         final int idx = this.random.nextInt(sentences.size());
         return Optional.of(sentences.get(idx));
     }
@@ -113,21 +118,5 @@ public class ChatServiceImpl implements ChatService {
             }
         }
         return text;
-    }
-
-    private static class MessageResponseSentenceTypeClassifier {
-        public static SentenceType classify(Message message) {
-            SentenceType sentenceType;
-            if (message.getName() == null || message.getName().isEmpty()) {
-                sentenceType = SentenceType.ANONYMOUS;
-            } else if (message.getText() == null || message.getText().length() == 0 || message.getText().equalsIgnoreCase("?")) {
-                sentenceType = SentenceType.BLANK;
-            } else if (message.getText().endsWith("?")) {
-                sentenceType = SentenceType.QUESTION;
-            } else {
-                sentenceType = SentenceType.STATEMENT;
-            }
-            return sentenceType;
-        }
     }
 }
