@@ -1,3 +1,10 @@
+insert into response_type (created_by, modified_by, created_date, modified_date, type, description) values
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PREFIX', 'PREFIX'),
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ANONYMOUS', 'ANONYMOUS'),
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'BLANK', 'BLANK'),
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'QUESTION', 'QUESTION'),
+('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'STATEMENT', 'STATEMENT');
+
 --PREFIX
 insert into sentence (created_by, modified_by, created_date, modified_date, sentence_type, text) values
 ('SYSTEM', 'SYSTEM', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PREFIX', 'Hello there'),
