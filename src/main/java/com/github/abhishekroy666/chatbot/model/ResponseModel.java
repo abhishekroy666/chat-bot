@@ -1,6 +1,5 @@
 package com.github.abhishekroy666.chatbot.model;
 
-import com.github.abhishekroy666.chatbot.enums.SentenceType;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -10,12 +9,12 @@ import javax.validation.constraints.NotNull;
  * @author Abhishek Roy
  */
 @Data
-public class SentenceModel {
+public class ResponseModel {
 
     private Integer id;
 
     @NotNull
-    private SentenceType sentenceType;
+    private ResponseTypeModel responseType;
 
     @NotBlank
     private String text;

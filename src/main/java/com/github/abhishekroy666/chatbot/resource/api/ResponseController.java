@@ -1,8 +1,8 @@
 package com.github.abhishekroy666.chatbot.resource.api;
 
 import com.github.abhishekroy666.chatbot.enums.SentenceType;
-import com.github.abhishekroy666.chatbot.model.SentenceModel;
-import com.github.abhishekroy666.chatbot.service.SentenceService;
+import com.github.abhishekroy666.chatbot.model.ResponseModel;
+import com.github.abhishekroy666.chatbot.service.ResponseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,37 +26,38 @@ import javax.validation.Valid;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/sentence")
-public class SentenceController {
+@RequestMapping("/response")
+public class ResponseController {
 
     @Autowired
-    private SentenceService sentenceService;
+    private ResponseService responseService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid SentenceModel sentenceModel) {
-        this.sentenceService.create(sentenceModel);
+    public ResponseEntity<?> create(@RequestBody @Valid ResponseModel responseModel) {
+        this.responseService.create(responseModel);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping
     public ResponseEntity<?> retrieve(@RequestParam(required = false) SentenceType sentenceType,
+                                      @RequestParam(required = false) String text,
                                       @RequestParam(required = false) Integer page,
                                       @RequestParam(required = false) Integer size) {
         final Pageable pageable = (page != null && size != null)
                 ? PageRequest.of(page, size)
                 : Pageable.unpaged();
-        return ResponseEntity.ok(this.sentenceService.retrieve(sentenceType, pageable));
+        return ResponseEntity.ok(this.responseService.retrieve(sentenceType, text, pageable));
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody @Valid SentenceModel sentenceModel) {
-        this.sentenceService.update(sentenceModel);
-        return ResponseEntity.ok(sentenceModel);
+    public ResponseEntity<?> update(@RequestBody @Valid ResponseModel responseModel) {
+        this.responseService.update(responseModel);
+        return ResponseEntity.ok(responseModel);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
-        this.sentenceService.delete(id);
+        this.responseService.delete(id);
         return ResponseEntity.ok().build();
     }
 }
