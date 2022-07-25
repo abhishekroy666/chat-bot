@@ -45,26 +45,20 @@ public class ResponseTypeServiceImpl implements ResponseTypeService<Message> {
 
     @Override
     public Page<ResponseTypeModel> retrieve(SentenceType type, String description, Pageable pageable) {
-        ExampleMatcher matcher = ExampleMatcher.matching()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
-                .withIgnoreCase();
-        final ResponseType responseType = new ResponseType();
-        responseType.setType(type);
-        responseType.setDescription(description);
+        final ResponseTypeModel responseTypeModel = new ResponseTypeModel();
+        responseTypeModel.setType(type);
+        responseTypeModel.setDescription(description);
         return this.responseTypeRepository
-                .findAll(Example.of(responseType, matcher), pageable)
+                .findAll(this.exampleOf(responseTypeModel), pageable)
                 .map(this.responseTypeMapper::mapEntityToModel);
     }
 
     @Override
     public Optional<ResponseTypeModel> retrieveOne(SentenceType type) {
-        ExampleMatcher matcher = ExampleMatcher.matching()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
-                .withIgnoreCase();
-        final ResponseType responseType = new ResponseType();
-        responseType.setType(type);
+        final ResponseTypeModel responseTypeModel = new ResponseTypeModel();
+        responseTypeModel.setType(type);
         return this.responseTypeRepository
-                .findOne(Example.of(responseType, matcher))
+                .findOne(this.exampleOf(responseTypeModel))
                 .map(this.responseTypeMapper::mapEntityToModel);
     }
 
@@ -90,17 +84,16 @@ public class ResponseTypeServiceImpl implements ResponseTypeService<Message> {
 
     @Override
     public ResponseTypeModel classify(Message message) {
-        SentenceType sentenceType;
-        if (message.getName() == null || message.getName().isEmpty()) {
-            sentenceType = SentenceType.ANONYMOUS;
-        } else if (message.getText() == null || message.getText().length() == 0 || message.getText().equalsIgnoreCase("?")) {
-            sentenceType = SentenceType.BLANK;
-        } else if (message.getText().endsWith("?")) {
-            sentenceType = SentenceType.QUESTION;
-        } else {
-            sentenceType = SentenceType.STATEMENT;
-        }
+        final SentenceType sentenceType = SentenceType.classify(message);
         return this.retrieveOne(sentenceType)
                 .orElseThrow(() -> new NotFoundException("No response type found with type=" + sentenceType));
+    }
+
+    private Example<ResponseType> exampleOf(ResponseTypeModel responseTypeModel) {
+        ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIgnoreCase();
+        if (responseTypeModel.getDescription() != null) {
+            exampleMatcher = exampleMatcher.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        }
+        return Example.of(this.responseTypeMapper.mapModelToEntity(responseTypeModel), exampleMatcher);
     }
 }
