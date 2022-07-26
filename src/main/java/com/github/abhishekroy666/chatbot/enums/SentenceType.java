@@ -2,23 +2,24 @@ package com.github.abhishekroy666.chatbot.enums;
 
 import com.github.abhishekroy666.chatbot.model.Message;
 
-public enum MessageType {
+public enum SentenceType {
+    PREFIX,
     STATEMENT,
     QUESTION,
     BLANK,
     ANONYMOUS;
 
-    public static MessageType of(Message message) {
-        MessageType messageType;
+    public static SentenceType classify(Message message) {
+        SentenceType sentenceType;
         if (message.getName() == null || message.getName().isEmpty()) {
-            messageType = ANONYMOUS;
+            sentenceType = SentenceType.ANONYMOUS;
         } else if (message.getText() == null || message.getText().length() == 0 || message.getText().equalsIgnoreCase("?")) {
-            messageType = BLANK;
+            sentenceType = SentenceType.BLANK;
         } else if (message.getText().endsWith("?")) {
-            messageType = QUESTION;
+            sentenceType = SentenceType.QUESTION;
         } else {
-            messageType = STATEMENT;
+            sentenceType = SentenceType.STATEMENT;
         }
-        return messageType;
+        return sentenceType;
     }
 }

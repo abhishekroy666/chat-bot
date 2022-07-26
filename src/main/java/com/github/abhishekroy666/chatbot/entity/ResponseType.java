@@ -1,8 +1,9 @@
 package com.github.abhishekroy666.chatbot.entity;
 
-import com.github.abhishekroy666.chatbot.enums.MessageType;
+import com.github.abhishekroy666.chatbot.enums.SentenceType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.ColumnTransformer;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,18 +21,19 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"messageType", "text"}))
-public class Sentence extends BaseEntity {
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"type"}))
+public class ResponseType extends BaseEntity {
 
     @Id
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100, updatable = false)
+    @ColumnTransformer(read = "upper(type)", write = "upper(type)", forColumn = "type")
     @Enumerated(EnumType.STRING)
-    private MessageType messageType;
+    private SentenceType type;
 
-    @Column(nullable = false, length = 5000)
-    private String text;
+    @Column(length = 300)
+    private String description;
 }
