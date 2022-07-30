@@ -53,7 +53,8 @@ public class ChatServiceImpl implements ChatService {
                                                 .map(prefixModel -> applyPrefix(sentence.getText(), prefixModel.getText(), responseType, message))
                                                 .orElse("")
                                 )
-                                .orElse(sentence.getText()));
+                                .orElse(sentence.getText())
+                );
     }
 
     private static Optional<ResponseModel> randomize(List<ResponseModel> sentences) {
