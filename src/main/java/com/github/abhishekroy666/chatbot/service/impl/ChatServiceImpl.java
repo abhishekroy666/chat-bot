@@ -22,7 +22,7 @@ public class ChatServiceImpl implements ChatService {
 
     private static final Map<ResponseTypeModel, Integer> LAST_USED_RESPONSE_MAP = new HashMap<>();
 
-    private final Random random = new Random();
+    private static final Random RANDOM = new Random();
 
     @Autowired
     private ResponseService responseService;
@@ -44,30 +44,28 @@ public class ChatServiceImpl implements ChatService {
     }
 
     private Optional<String> createResponse(Message message) {
-        final SentenceType sentenceType = SentenceType.classify(message);
-        final boolean prefixable = !sentenceType.equals(SentenceType.ANONYMOUS);
-        return this.randomize(this.responseService.retrieve(sentenceType, null, Pageable.unpaged()).toList())
-                .map(sentence -> {
-                    if (prefixable) {
-                        Optional<ResponseModel> prefix = this.randomize(this.responseService.retrieve(SentenceType.PREFIX, null, Pageable.unpaged()).toList());
-                        if (prefix.isPresent()) {
-                            return applyPrefix(sentence.getText(), prefix.get().getText(), message);
-                        }
-                    }
-                    return sentence.getText();
-                });
+        final ResponseTypeModel responseType = this.responseTypeService.classify(message);
+        return randomize(this.responseService.retrieve(responseType, null, Pageable.unpaged()).toList())
+                .map(sentence ->
+                        this.responseTypeService.retrieveOne(SentenceType.PREFIX)
+                                .map(prefix ->
+                                        randomize(this.responseService.retrieve(prefix, null, Pageable.unpaged()).toList())
+                                                .map(prefixModel -> applyPrefix(sentence.getText(), prefixModel.getText(), responseType, message))
+                                                .orElse("")
+                                )
+                                .orElse(sentence.getText()));
     }
 
-    private Optional<ResponseModel> randomize(List<ResponseModel> sentences) {
+    private static Optional<ResponseModel> randomize(List<ResponseModel> sentences) {
         Optional<ResponseModel> sentenceModel = Optional.empty();
         if (sentences != null && !sentences.isEmpty()) {
-            sentenceModel = this.fetchRandomSentenceModel(sentences);
+            sentenceModel = getRandomFromListOf(sentences);
             if (sentenceModel.isPresent()) {
                 final ResponseTypeModel responseTypeModel = sentenceModel.get().getResponseType();
                 if (LAST_USED_RESPONSE_MAP.containsKey(responseTypeModel)) {
                     final int prevRespId = LAST_USED_RESPONSE_MAP.get(responseTypeModel);
                     while (sentenceModel.isPresent() && sentenceModel.get().getId() == prevRespId) {
-                        sentenceModel = this.fetchRandomSentenceModel(sentences);
+                        sentenceModel = getRandomFromListOf(sentences);
                     }
                 }
             }
@@ -76,34 +74,37 @@ public class ChatServiceImpl implements ChatService {
         return sentenceModel;
     }
 
-    private Optional<ResponseModel> fetchRandomSentenceModel(List<ResponseModel> sentences) {
-        final int idx = this.random.nextInt(sentences.size());
-        return Optional.of(sentences.get(idx));
+    private static <T> Optional<T> getRandomFromListOf(List<T> list) {
+        if (list != null && !list.isEmpty()) {
+            final int idx = RANDOM.nextInt(list.size());
+            return Optional.of(list.get(idx));
+        }
+        return Optional.empty();
     }
 
-    private String applyPrefix(String text, String prefix, Message message) {
-        if (this.random.nextBoolean()) {
-            if (this.random.nextBoolean()) {
-                prefix += " " + this.randomizeName(message.getName()) + ",";
+    private static String applyPrefix(String text, String prefix, ResponseTypeModel responseType, Message message) {
+        if (RANDOM.nextBoolean()) {
+            if (responseType.getType() != SentenceType.ANONYMOUS && RANDOM.nextBoolean()) {
+                prefix += " " + getRandomToken(message.getName());
             }
             if (prefix.length() < text.length()) {
-                text = prefix + " " + this.makePrefixable(text);
+                text = prefix + ", " + makePrefixable(text);
             }
         }
         return text;
     }
 
-    public String randomizeName(String name) {
-        if (name != null && !name.isEmpty() && this.random.nextBoolean()) {
-            final String[] nameParts = name.split(" ");
-            int idx = random.nextInt(nameParts.length);
-            String part = nameParts[idx];
-            return (part != null) ? part : name;
+    private static String getRandomToken(String string) {
+        if (string != null && !string.isEmpty() && RANDOM.nextBoolean()) {
+            final String[] tokens = string.split(" ");
+            int idx = RANDOM.nextInt(tokens.length);
+            String token = tokens[idx];
+            return (token != null) ? token : string;
         }
-        return name;
+        return string;
     }
 
-    private String makePrefixable(String text) {
+    private static String makePrefixable(String text) {
         if (text != null && !text.isEmpty()) {
             final String[] words = text.split(" ");
             if (words.length >= 1) {
