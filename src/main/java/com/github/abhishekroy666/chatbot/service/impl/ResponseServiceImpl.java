@@ -17,8 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 /**
  * @author Abhishek Roy
  */
@@ -36,10 +34,9 @@ public class ResponseServiceImpl implements ResponseService {
 
     @Override
     public final void create(ResponseModel responseModel) {
-        final Example<Response> example = this.exampleOf(responseModel);
-        this.responseRepository.findOne(example)
+        this.responseRepository.findOne(this.exampleOf(responseModel))
                 .ifPresent(response -> {
-                    throw new ConflictException("Sentence already exists.");
+                    throw new ConflictException("Response already exists");
                 });
         this.responseRepository.save(this.responseMapper.mapModelToEntity(responseModel));
     }
@@ -57,23 +54,22 @@ public class ResponseServiceImpl implements ResponseService {
 
     @Override
     public void update(ResponseModel responseModel) throws NotFoundException {
-        Optional<Response> sentence = this.responseRepository.findById(responseModel.getId());
-        if (!sentence.isPresent()) {
-            throw new NotFoundException("No sentence found with id=" + responseModel.getId());
-        }
-        sentence.ifPresent(s -> {
-            s.setText(responseModel.getText());
-            this.responseRepository.save(s);
-        });
+        this.responseRepository.findById(responseModel.getId())
+                .map(sentence -> {
+                    this.responseMapper.update(sentence, responseModel);
+                    return this.responseRepository.save(sentence);
+                })
+                .orElseThrow(() -> new NotFoundException("No response found with id=" + responseModel.getId()));
     }
 
     @Override
     public void delete(Integer id) {
-        Optional<Response> sentence = this.responseRepository.findById(id);
-        if (!sentence.isPresent()) {
-            throw new NotFoundException("No sentence found with id=" + id);
-        }
-        sentence.ifPresent(this.responseRepository::delete);
+        this.responseRepository.findById(id)
+                .map(response -> {
+                    this.responseRepository.delete(response);
+                    return response;
+                })
+                .orElseThrow(() -> new NotFoundException("No response found with id=" + id));
     }
 
     private Example<Response> exampleOf(ResponseModel responseModel) {

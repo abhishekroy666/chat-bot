@@ -32,13 +32,9 @@ public class ResponseTypeServiceImpl implements ResponseTypeService<Message> {
 
     @Override
     public void create(ResponseTypeModel responseTypeModel) {
-        final ResponseType responseType = new ResponseType();
-        responseType.setType(responseTypeModel.getType());
-        final ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIgnoreCase(true);
-        final Example<ResponseType> example = Example.of(responseType, exampleMatcher);
-        this.responseTypeRepository.findOne(example)
+        this.responseTypeRepository.findOne(this.exampleOf(responseTypeModel))
                 .ifPresent(existing -> {
-                    throw new ConflictException("Response type already exists.");
+                    throw new ConflictException("Response type already exists");
                 });
         this.responseTypeRepository.save(this.responseTypeMapper.mapModelToEntity(responseTypeModel));
     }

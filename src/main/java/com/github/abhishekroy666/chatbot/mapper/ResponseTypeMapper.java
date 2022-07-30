@@ -15,5 +15,5 @@ public interface ResponseTypeMapper {
 
     ResponseType mapModelToEntity(ResponseTypeModel responseTypeModel);
 
-    void update(@MappingTarget ResponseType entity, ResponseTypeModel responseTypeModel);
+    void update(@MappingTarget ResponseType responseType, ResponseTypeModel responseTypeModel);
 }
