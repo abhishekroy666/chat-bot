@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-    <title>Stupid Chat Bot</title>
+    <title>A Stupid Chat Bot</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <link rel="icon" href="https://img.icons8.com/fluency/96/000000/chatbot.png">
     <script type="text/javascript">
@@ -28,7 +28,7 @@
 <body onload="checkName()">
 <div class="container">
     <div class="jumbotron text-center bg-success text-white">
-        <h3>The Stupid Chat-Bot</h3>
+        <h3>A Stupid Chat-Bot</h3>
         <span class="align-bottom float-right">v1.0</span>
     </div>
     <div class="container">
@@ -38,11 +38,11 @@
                 <div class="col-9"><input id="name" oninput="clearResponse()" type="text" class="form-control" th:field="*{name}"/></div>
             </div>
             <div class="row form-group">
-                <div id="textLabel" class="col-3 text-wrap font-weight-bold">Enter your message</div>
+                <div id="textLabel" class="col-3 text-wrap font-weight-bold">Type something</div>
                 <div id="textMessage" class="col-9"><textarea id="text" oninput="clearResponse()" class="form-control" th:field="*{text}"></textarea></div>
             </div>
             <div class="row form-group">
-                <div class="col-3 font-weight-bold">Bot Says</div>
+                <div class="col-3 font-weight-bold">Bot says</div>
                 <div class="col-9"><textarea id="response" class="form-control" th:field="*{response}" disabled></textarea></div>
             </div>
             <div class="row form-group">
