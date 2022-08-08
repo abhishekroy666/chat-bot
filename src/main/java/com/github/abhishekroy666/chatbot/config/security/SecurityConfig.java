@@ -27,7 +27,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/authenticate",
             "/chat",
             "/chat/api",
-            "/",
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/swagger-ui.html",
@@ -64,12 +63,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        // We don't need CSRF for this example
         httpSecurity
                 .headers().frameOptions().sameOrigin()
-                .and().csrf().ignoringAntMatchers("/h2-console/**").disable()
+                .and().csrf().ignoringAntMatchers("/h2-console/**")
                 // don't authenticate these patterns
-                .authorizeRequests().antMatchers(UNAUTHENTICATED).permitAll()
+                .and().authorizeRequests().antMatchers(UNAUTHENTICATED).permitAll()
                 // all other requests need to be authenticated
                 .anyRequest().authenticated()
                 // make sure we use stateless session; session won't be used to store user's state.
