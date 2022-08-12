@@ -63,9 +63,8 @@ public class SecurityConfig {
         protected void configure(HttpSecurity httpSecurity) throws Exception {
             httpSecurity
                     .antMatcher("/api/**").cors()
-                    .and()
-                    .csrf().disable() // we don't need CSRF because our token is invulnerable
-                    .authorizeRequests()
+                    .and().csrf()
+                    .and().authorizeRequests()
                     .antMatchers(HttpMethod.POST, UNAUTHENTICATED).permitAll()
                     .anyRequest().authenticated()
                     .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
