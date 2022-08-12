@@ -27,8 +27,8 @@ import javax.validation.Valid;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/response/type")
-public class ResponseTypeController {
+@RequestMapping("/api/response/type")
+public class ApiResponseTypeController {
 
     @Autowired
     private ResponseTypeService<Message> responseTypeService;

@@ -32,7 +32,7 @@
         <span class="align-bottom float-right">v1.0</span>
     </div>
     <div class="container">
-        <form th:action="@{/chat/web}" th:object="${message}" method="post">
+        <form th:action="@{/chat}" th:object="${message}" method="post">
             <div class="row form-group">
                 <div class="col-3 font-weight-bold">Name</div>
                 <div class="col-9"><input id="name" oninput="clearResponse()" type="text" class="form-control" th:field="*{name}"/></div>

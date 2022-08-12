@@ -11,16 +11,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @author Abhishek Roy
+ */
 @RestController
 @CrossOrigin
-@RequestMapping("/chat")
-public class ChatController {
+@RequestMapping("/api/chat")
+public class ApiChatController {
 
     @Autowired
     private ChatService chatService;
 
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> chat(@RequestBody Message message) {
+    public ResponseEntity<?> chatApi(@RequestBody Message message) {
         return ResponseEntity.ok(this.chatService.chat(message));
     }
 }

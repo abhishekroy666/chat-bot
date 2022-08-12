@@ -2,6 +2,7 @@ package com.github.abhishekroy666.chatbot.service;
 
 import com.github.abhishekroy666.chatbot.enums.SentenceType;
 import com.github.abhishekroy666.chatbot.exception.NotFoundException;
+import com.github.abhishekroy666.chatbot.model.Message;
 import com.github.abhishekroy666.chatbot.model.ResponseTypeModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +12,7 @@ import java.util.Optional;
 /**
  * @author Abhishek Roy
  */
-public interface ResponseTypeService<T> {
+public interface ResponseTypeService<T extends Message> {
 
     void create(ResponseTypeModel responseType);
 

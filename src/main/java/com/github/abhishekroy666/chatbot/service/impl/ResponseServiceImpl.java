@@ -1,21 +1,21 @@
 package com.github.abhishekroy666.chatbot.service.impl;
 
 import com.github.abhishekroy666.chatbot.entity.Response;
-import com.github.abhishekroy666.chatbot.enums.SentenceType;
 import com.github.abhishekroy666.chatbot.exception.ConflictException;
 import com.github.abhishekroy666.chatbot.exception.NotFoundException;
 import com.github.abhishekroy666.chatbot.mapper.ResponseMapper;
-import com.github.abhishekroy666.chatbot.model.Message;
 import com.github.abhishekroy666.chatbot.model.ResponseModel;
+import com.github.abhishekroy666.chatbot.model.ResponseTypeModel;
 import com.github.abhishekroy666.chatbot.repository.ResponseRepository;
 import com.github.abhishekroy666.chatbot.service.ResponseService;
-import com.github.abhishekroy666.chatbot.service.ResponseTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * @author Abhishek Roy
@@ -25,9 +25,6 @@ public class ResponseServiceImpl implements ResponseService {
 
     @Autowired
     private ResponseRepository responseRepository;
-
-    @Autowired
-    private ResponseTypeService<Message> responseTypeService;
 
     @Autowired
     private ResponseMapper responseMapper;
@@ -42,10 +39,10 @@ public class ResponseServiceImpl implements ResponseService {
     }
 
     @Override
-    public Page<ResponseModel> retrieve(SentenceType sentenceType, String text, Pageable pageable) {
+    public Page<ResponseModel> retrieve(ResponseTypeModel responseType, String text, Pageable pageable) {
         final ResponseModel responseModel = new ResponseModel();
         responseModel.setText(text);
-        this.responseTypeService.retrieveOne(sentenceType)
+        Optional.ofNullable(responseType)
                 .ifPresent(responseModel::setResponseType);
         return this.responseRepository
                 .findAll(this.exampleOf(responseModel), pageable)
